@@ -5,7 +5,7 @@ import viewsRouter from './routes/views.router.js';
 import {Server} from 'socket.io';
 import productRouter from './routes/products.router.js';
 import cartRouter from './routes/carts.router.js';
-import ProductManager from './ProductManager.js';
+import ProductManager from './Dao/managers/ProductManager.js';
 
 import mongoose from 'mongoose';
 const MONGO = 'mongodb+srv://merkelgonzalo:dalemillo123@cluster0.a9rnj46.mongodb.net/?retryWrites=true&w=majority';

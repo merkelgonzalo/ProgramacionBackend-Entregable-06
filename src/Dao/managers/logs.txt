@@ -1,0 +1,4 @@
+Date: 10/5/2023 - Hour: 20:27:03 - Method: GET all products
+Date: 10/5/2023 - Hour: 20:27:22 - Method: POST a product
+Date: 10/5/2023 - Hour: 20:27:35 - Method: UPDATE a product
+Date: 10/5/2023 - Hour: 20:27:48 - Method: DELETE a product

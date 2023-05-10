@@ -1,12 +1,13 @@
 import { Router } from 'express';
-//import ProductManager from '../ProductManager.js';
-import { productModel } from '../models/products.model.js';
+import ManagerAccess from '../Dao/managers/ManagerAccess.js';
+import { productModel } from '../Dao/models/products.model.js';
 
 const router = Router();
-//const productManager = new ProductManager("/src/products.json");
+const managerAccess = new ManagerAccess();
 
 router.get('/', async (req,res) => {
     try{
+        await managerAccess.saveLog('GET all products');
         const limit = req.query.limit;
         const products = await productModel.find();
         if(!limit){
@@ -22,6 +23,7 @@ router.get('/', async (req,res) => {
 
 router.get('/:pid', async (req,res)=>{
     try{
+        await managerAccess.saveLog('GET a product');
         const idProduct = req.params.pid;
         const result = await productModel.find({_id:idProduct});
         
@@ -38,6 +40,7 @@ router.get('/:pid', async (req,res)=>{
 
 router.post('/', async (req,res) => {
     try{
+        await managerAccess.saveLog('POST a product');
         let {title, description, price, thumnail, code, stock, category} = req.body;
     
         if(!title || !price || !code || !category){
@@ -66,6 +69,7 @@ router.post('/', async (req,res) => {
 
 router.put('/:pid', async (req,res) => {
     try{
+        await managerAccess.saveLog('UPDATE a product');
         const product = req.body;
         const idProduct = req.params.pid;
         
@@ -83,6 +87,7 @@ router.put('/:pid', async (req,res) => {
 
 router.delete('/:pid', async (req,res) => {
     try{
+        await managerAccess.saveLog('DELETE a product');
         const idProduct = req.params.pid;
         let result = await productModel.deleteOne({_id:idProduct})
         res.send({status: 'success', payload: result})

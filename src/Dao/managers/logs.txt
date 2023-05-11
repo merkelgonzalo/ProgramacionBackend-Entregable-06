@@ -2,3 +2,9 @@ Date: 10/5/2023 - Hour: 20:27:03 - Method: GET all products
 Date: 10/5/2023 - Hour: 20:27:22 - Method: POST a product
 Date: 10/5/2023 - Hour: 20:27:35 - Method: UPDATE a product
 Date: 10/5/2023 - Hour: 20:27:48 - Method: DELETE a product
+Date: 10/5/2023 - Hour: 21:04:43 - Method: POST a cart
+Date: 10/5/2023 - Hour: 21:04:52 - Method: GET all carts
+Date: 10/5/2023 - Hour: 21:05:52 - Method: POST a cart
+Date: 10/5/2023 - Hour: 21:05:59 - Method: POST a cart
+Date: 10/5/2023 - Hour: 21:06:02 - Method: POST a cart
+Date: 10/5/2023 - Hour: 21:06:06 - Method: GET all carts

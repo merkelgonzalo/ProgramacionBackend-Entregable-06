@@ -1,18 +1,23 @@
 import { Router } from 'express';
-import CartManager from '../Dao/managers/CartManager.js';
+import ManagerAccess from '../Dao/managers/ManagerAccess.js';
+import { cartModel } from '../Dao/models/carts.model.js';
 
 const router = Router();
-const cartManager = new CartManager("/src/carts.json");
-
+const managerAccess = new ManagerAccess();
 
 router.get('/', async (req,res) => {
-    const limit = req.query.limit;
-    const carts = await cartManager.getCarts();
-    if(!limit){
-        res.send(carts);
-    }else{
-        const cartsLimit = carts.filter(cart => cart.id <= limit);
-        res.send(cartsLimit);
+    try{
+        await managerAccess.saveLog('GET all carts');
+        const limit = req.query.limit;
+        const carts = await cartModel.find();
+        if(!limit){
+            res.send({result: "success", payload: carts});
+        }else{
+            const cartsLimit = carts.filter(cart => cart.id <= limit);
+            res.send({result: "success", payload: cartsLimit});
+        }
+    }catch(error){
+        console.log('Cannot get carts with mongoose: '+error)
     }
 });
 
@@ -33,10 +38,17 @@ router.get('/:cid', async (req,res)=>{
 });
 
 router.post('/', async (req,res) => {
-    await cartManager.addCart();
-    res.send({
-        status: 'Success'
-    })
+    try{
+        await managerAccess.saveLog('POST a cart');
+        let result = await cartModel.create({});
+        res.send({
+            status: 'success',
+            payload: result
+        }); 
+    }catch(error){
+        console.log('Cannot post the cart with mongoose: '+error)
+    }
+
 });
 
 router.post('/:cid/product/:pid', async (req,res) => {

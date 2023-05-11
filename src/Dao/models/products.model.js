@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const productCollection = 'products' //Nombre de la coleccion en la bdd
+const productCollection = 'products'
 
 const productSchema = new mongoose.Schema({
     title: {

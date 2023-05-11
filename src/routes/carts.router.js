@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ManagerAccess from '../Dao/managers/ManagerAccess.js';
 import { cartModel } from '../Dao/models/carts.model.js';
+import { productModel } from '../Dao/models/products.model.js';
 
 const router = Router();
 const managerAccess = new ManagerAccess();
@@ -51,21 +52,25 @@ router.post('/', async (req,res) => {
 });
 
 router.post('/:cid/product/:pid', async (req,res) => {
-    const idCart = req.params.cid;
-    const idProduct = req.params.pid;
-    const quantity = req.body.quantity;
 
-    const cart = await cartManager.addProduct(idCart, idProduct, quantity);
+    try{
+        await managerAccess.saveLog('UPDATE a cart');
+        const idCart = req.params.cid;
+        const idProduct = req.params.pid;
+        const quantityBody = req.body.quantity
 
-    if(cart != -1){
+        const cart = await cartModel.find({_id:idCart});
+        cart[0].products.push({product:idProduct, quantity:quantityBody});
+        
+        const result = await cartModel.updateOne({_id:idCart}, {$set:cart[0]});
+
         res.send({
-            status: 'Success',
-            cart
+            status: 'success',
+            payload: result
         });
-    }else{
-        res.send({
-            status: 'Error: ID not found'
-        });
+    }catch(error){
+        console.log('Cannot get the product with mongoose: '+error);
+        return res.send({status:"error", error: "ID not found"});
     }
 });
 

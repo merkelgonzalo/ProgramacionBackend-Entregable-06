@@ -35,7 +35,6 @@ router.get('/:pid', async (req,res)=>{
         console.log('Cannot get the product with mongoose: '+error);
         return res.send({status:"error", error: "ID not found"});
     }
-        
 });
 
 router.post('/', async (req,res) => {

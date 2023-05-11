@@ -22,18 +22,18 @@ router.get('/', async (req,res) => {
 });
 
 router.get('/:cid', async (req,res)=>{
-    const idCart = req.params.cid;
-    const cart = await cartManager.getCartById(idCart);
-
-    if(cart != -1){
+    try{
+        await managerAccess.saveLog('GET a cart');
+        const idCart = req.params.cid;
+        const result = await cartModel.find({_id:idCart});
+        
         res.send({
-            status: 'Success',
-            cart
+            status: 'success',
+            payload: result
         });
-    }else{
-        res.send({
-            status: 'Error: ID not found'
-        });
+    }catch(error){
+        console.log('Cannot get the cart with mongoose: '+error);
+        return res.send({status:"error", error: "ID not found"});
     }
 });
 
@@ -48,7 +48,6 @@ router.post('/', async (req,res) => {
     }catch(error){
         console.log('Cannot post the cart with mongoose: '+error)
     }
-
 });
 
 router.post('/:cid/product/:pid', async (req,res) => {
